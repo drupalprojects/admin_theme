@@ -1,0 +1,97 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Enable the administration theme on more pages then possible with Drupal's default administration page.
+ */
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function admin_theme_form_system_admin_theme_settings_alter(&$form, $form_state) {
+  // we want our checkbox before the submit button
+  $form['buttons']['#weight'] = 5;
+  
+  // batch processing page
+  $form['admin_theme_batch'] = array(
+    '#type' => 'checkbox',
+    '#weight' => 1,
+    '#title' => t('Use administration theme for batch processing'),
+    '#description' => t('Use the administration theme when executing batch operations.'),
+    '#default_value' => variable_get('admin_theme_batch', '0'),
+  );
+  
+  // code reviews pages
+  if (module_exists('coder')) {
+    $form['admin_theme_coder'] = array(
+      '#type' => 'checkbox',
+      '#weight' => 2,
+      '#title' => t('Use administration theme for code reviews'),
+      '#description' => t('Use the administration theme when viewing Coder code reviews.'),
+      '#default_value' => variable_get('admin_theme_coder', '0'),
+    );
+  }
+  
+  // service attachments form on nodes
+  if (module_exists('service_attachments')) {
+    $form['admin_service_attachments'] = array(
+      '#type' => 'checkbox',
+      '#weight' => 3,
+      '#title' => t('Use administration theme for viewing the service attachments form on nodes.'),
+      '#description' => t('Use the administration theme when viewing service attachments on nodes.'),
+      '#default_value' => variable_get('admin_service_attachments', '0'),
+    );
+  }
+
+  // define a custom list of pages
+  $form['admin_theme_path'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Use administration theme on the following pages.'),
+    '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+    '#weight' => 4,
+    '#default_value' => variable_get('admin_theme_path', ''),
+  );
+}
+
+/**
+ * Implementation of hook_init().
+ */
+function admin_theme_init() {
+  $admin_theme = FALSE;
+  
+  // batch processing page should get admin theme
+  if (variable_get('admin_theme_batch', '1') && arg(0) == 'batch') {
+    $admin_theme = TRUE;
+  }
+  
+  // code reviews pages should get admin theme
+  if (variable_get('admin_theme_coder', '1') && arg(0) == 'coder') {
+    $admin_theme = TRUE;
+  }
+  
+  // service attachments form on nodes should get admin theme
+  if (variable_get('admin_service_attachments', '1') && arg(0) == 'node' && arg(2) == 'service_attachments') {
+    $admin_theme = TRUE;
+  }
+  
+  // some custom defined pages should get admin theme
+  if (trim(variable_get('admin_theme_path', '')) != '') {
+    // pages that are defined by their normal path
+    $match_path = drupal_match_path($_GET['q'], variable_get('admin_theme_path', ''));
+    
+    // pages that are defined with their alias
+    $alias = drupal_get_path_alias($_GET['q']);
+    if ($alias != $_GET['q']) {
+      $match_alias = drupal_match_path($alias, variable_get('admin_theme_path', ''));
+    }
+    
+    $admin_theme = $match_path || $match_alias;
+  }
+  
+  // Use the admin theme for the current request (if global admin theme setting is checked).
+  if ($admin_theme) {
+    global $custom_theme;
+    $custom_theme = variable_get('admin_theme', '0');
+  }
+}

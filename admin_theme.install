@@ -1,0 +1,18 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_install().
+ */
+function admin_theme_install() {
+  $link = array('!link' => l(t('Administer > Site configuration > Administration theme'), 'admin/settings/admin_theme'));
+  drupal_set_message(t("Administration theme module settings are available under !link", $link));
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function admin_theme_uninstall() {
+  db_query("DELETE FROM {variable} WHERE name LIKE 'admin_theme_%'");
+  cache_clear_all('variables', 'cache');
+}

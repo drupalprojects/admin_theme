@@ -1,0 +1,47 @@
+/* $Id$ */
+
+Description
+-----------
+
+Drupal allows you to define a different theme for administration pages (Administer -> Site configuration -> Administration theme). By default this only applies to pages with a path starting with 'admin' and content editing pages.
+
+The Administration theme module adds a few more option to the default configuration page like :
+- Use administration theme for batch processing
+- Use administration theme for code reviews
+- ...
+
+Some of these pages will only appear if they apply to your installation, i.e. you have the module installed which generates these pages.
+
+You also have the option to define a custom set of Drupal paths or aliases to apply the administration theme for.
+
+
+Requirements
+------------
+
+This module requires Drupal 6.
+
+
+Installation
+------------
+
+1) Copy/upload the admin_theme module folder to the sites/all/modules
+directory of your Drupal installation. 
+
+2) Enable the Administration theme module in Drupal (administer -> modules).
+
+
+Configuration
+-------------
+
+You can enable/disable the administration theme on the administration theme
+configuration page.
+
+Instant search can be configured at : 
+  Administer -> Site configuration -> Administration theme
+
+
+Author
+------
+
+Davy Van Den Bremt <info@davyvandenbremt.be>
+http://www.davyvandenbremt.be
