@@ -7,6 +7,13 @@
  */
 
 /**
+ * Implementation of hook_perm().
+ */
+function admin_theme_perm() {
+  return array('access admin theme');
+}
+
+/**
  * Implementation of hook_form_alter().
  */
 function admin_theme_form_system_admin_theme_settings_alter(&$form, $form_state) {
@@ -58,6 +65,11 @@ function admin_theme_form_system_admin_theme_settings_alter(&$form, $form_state)
  * Implementation of hook_init().
  */
 function admin_theme_init() {
+  // if the current user doesn't have access to the admin theme, we don't even bother doing all the checks
+  if (!user_access('access admin theme')) {
+    return;
+  }
+  
   $admin_theme = FALSE;
   
   // batch processing page should get admin theme
