@@ -65,8 +65,10 @@ function admin_theme_form_system_admin_theme_settings_alter(&$form, $form_state)
  * Implementation of hook_init().
  */
 function admin_theme_init() {
-  // if the current user doesn't have access to the admin theme, we don't even bother doing all the checks
+  // ensure users without the appropriate permissions do not see the admin theme
   if (!user_access('access admin theme')) {
+    global $custom_theme;
+    $custom_theme = '0';
     return;
   }
   
