@@ -38,6 +38,11 @@ configuration page.
 
 Instant search can be configured at : 
   Administer -> Site configuration -> Administration theme
+  
+Developers
+----------
+You can add define extra pages where the administration theme should be applied to by implementing the hook_admin_theme hook in your modules.
+This hook uses an $op variable to specify two operation that can be done: getting all "options" and checking if an option should be applied to a path. Check out admin_theme_admin_theme for an example implementation.
 
 
 Author
