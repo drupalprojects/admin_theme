@@ -42,12 +42,12 @@ function admin_theme_form_system_admin_theme_settings_alter(&$form, $form_state)
   
   // service attachments form on nodes
   if (module_exists('service_attachments')) {
-    $form['admin_service_attachments'] = array(
+    $form['admin_theme_service_attachments'] = array(
       '#type' => 'checkbox',
       '#weight' => 3,
       '#title' => t('Use administration theme for viewing the service attachments form on nodes.'),
       '#description' => t('Use the administration theme when viewing service attachments on nodes.'),
-      '#default_value' => variable_get('admin_service_attachments', '0'),
+      '#default_value' => variable_get('admin_theme_service_attachments', '0'),
     );
   }
 
@@ -85,7 +85,7 @@ function admin_theme_init() {
   }
   
   // service attachments form on nodes should get admin theme
-  if (variable_get('admin_service_attachments', '1') && arg(0) == 'node' && arg(2) == 'service_attachments') {
+  if (variable_get('admin_theme_service_attachments', '1') && arg(0) == 'node' && arg(2) == 'service_attachments') {
     $admin_theme = TRUE;
   }
   

@@ -13,6 +13,9 @@ function admin_theme_install() {
  * Implementation of hook_uninstall().
  */
 function admin_theme_uninstall() {
-  db_query("DELETE FROM {variable} WHERE name LIKE 'admin_theme_%'");
-  cache_clear_all('variables', 'cache');
+  // cleaning up admin theme variables
+  variable_del('admin_theme_batch');
+  variable_del('admin_theme_coder');
+  variable_del('admin_theme_service_attachments');
+  variable_del('admin_theme_path');
 }
