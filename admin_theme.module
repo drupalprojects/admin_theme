@@ -14,40 +14,56 @@ function admin_theme_perm() {
 }
 
 /**
+ * Get the variable name for a certain option.
+ *
+ * @param $module
+ *   String. Module that defines this option.
+ * @param $params
+ *   String. Name of the option.
+ * @return
+ *   String. Variable name for the option.
+ */
+function admin_theme_variable_name($module, $option) {
+  return 'admin_theme_'. $module .'_'. $option;
+}
+
+/**
+ * Get all module defined options.
+ *
+ * @return
+ *   Array. All options.
+ */
+function admin_theme_list() {
+  $options = array();
+  foreach (module_list() as $module) {
+    $module_options = module_invoke($module, 'admin_theme', 'info');
+    if (count($module_options) > 0) {
+      foreach ($module_options as $option => $info) {
+        $info['option'] = $option;
+        $info['module'] = $module;
+        $options[] = $info;
+      }
+    }
+  }
+  return $options;
+}
+
+/**
  * Implementation of hook_form_alter().
  */
 function admin_theme_form_system_admin_theme_settings_alter(&$form, $form_state) {
   // we want our checkbox before the submit button
-  $form['buttons']['#weight'] = 5;
-  
-  // batch processing page
-  $form['admin_theme_batch'] = array(
-    '#type' => 'checkbox',
-    '#weight' => 1,
-    '#title' => t('Use administration theme for batch processing'),
-    '#description' => t('Use the administration theme when executing batch operations.'),
-    '#default_value' => variable_get('admin_theme_batch', '0'),
-  );
-  
-  // code reviews pages
-  if (module_exists('coder')) {
-    $form['admin_theme_coder'] = array(
+  $form['buttons']['#weight'] = 10;
+
+  // add all options as checkboxes to the admin theme settings form
+  $list = admin_theme_list();
+  foreach ($list as $info) {
+    $var = admin_theme_variable_name($info['module'], $info['option']);
+    $form[$var] = array(
       '#type' => 'checkbox',
-      '#weight' => 2,
-      '#title' => t('Use administration theme for code reviews'),
-      '#description' => t('Use the administration theme when viewing Coder code reviews.'),
-      '#default_value' => variable_get('admin_theme_coder', '0'),
-    );
-  }
-  
-  // service attachments form on nodes
-  if (module_exists('service_attachments')) {
-    $form['admin_theme_service_attachments'] = array(
-      '#type' => 'checkbox',
-      '#weight' => 3,
-      '#title' => t('Use administration theme for viewing the service attachments form on nodes.'),
-      '#description' => t('Use the administration theme when viewing service attachments on nodes.'),
-      '#default_value' => variable_get('admin_theme_service_attachments', '0'),
+      '#title' => array_key_exists('title', $info) ? $info['title'] : NULL,
+      '#description' => array_key_exists('description', $info) ? $info['description'] : NULL,
+      '#default_value' => variable_get($var, '0'),
     );
   }
 
@@ -56,7 +72,7 @@ function admin_theme_form_system_admin_theme_settings_alter(&$form, $form_state)
     '#type' => 'textarea',
     '#title' => t('Use administration theme on the following pages.'),
     '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
-    '#weight' => 4,
+    '#weight' => 9,
     '#default_value' => variable_get('admin_theme_path', ''),
   );
 }
@@ -74,20 +90,16 @@ function admin_theme_init() {
   
   $admin_theme = FALSE;
   
-  // batch processing page should get admin theme
-  if (variable_get('admin_theme_batch', '1') && arg(0) == 'batch') {
-    $admin_theme = TRUE;
+  // check if an option is enabled and if it results to TRUE
+  $list = admin_theme_list();
+  foreach ($list as $info) {
+    $var = admin_theme_variable_name($info['module'], $info['option']);
+    if ((bool)variable_get($var, '0') && module_invoke($info['module'], 'admin_theme', 'check', $info['option'])) {
+      $admin_theme = TRUE;
+    }
   }
-  
-  // code reviews pages should get admin theme
-  if (variable_get('admin_theme_coder', '1') && arg(0) == 'coder') {
-    $admin_theme = TRUE;
-  }
-  
-  // service attachments form on nodes should get admin theme
-  if (variable_get('admin_theme_service_attachments', '1') && arg(0) == 'node' && arg(2) == 'service_attachments') {
-    $admin_theme = TRUE;
-  }
+
+  $admin_theme = TRUE;
   
   // some custom defined pages should get admin theme
   if (trim(variable_get('admin_theme_path', '')) != '') {
@@ -107,5 +119,37 @@ function admin_theme_init() {
   if ($admin_theme) {
     global $custom_theme;
     $custom_theme = variable_get('admin_theme', '0');
+  }
+}
+
+/**
+ * Implementation of hook_admin_theme().
+ */
+function admin_theme_admin_theme($op = 'info', $option = NULL) {
+  switch ($op) {
+    case 'info':
+      return array(
+        'batch' => array(
+          'title' => t('Use administration theme for batch processing'),
+          'description' => t('Use the administration theme when executing batch operations.'),
+        ),
+        'coder' => array(
+          'title' => t('Use administration theme for code reviews'),
+          'description' => t('Use the administration theme when viewing Coder code reviews.'),
+        ),
+        'service_attachments' => array(
+          'title' => t('Use administration theme for viewing the service attachments form on nodes.'),
+          'description' => t('Use the administration theme when viewing service attachments on nodes.'),
+        ),
+      );
+    case 'check':
+      switch ($option) {
+        case 'coder':
+          return arg(0) == 'coder';
+        case 'batch':
+          return arg(0) == 'batch';
+        case 'service_attachments':
+          return arg(0) == 'node' && arg(2) == 'service_attachments';
+      }
   }
 }
