@@ -128,20 +128,24 @@ function admin_theme_init() {
 function admin_theme_admin_theme($op = 'info', $option = NULL) {
   switch ($op) {
     case 'info':
-      return array(
-        'batch' => array(
-          'title' => t('Use administration theme for batch processing'),
-          'description' => t('Use the administration theme when executing batch operations.'),
-        ),
-        'coder' => array(
+      $options = array();
+      $options['batch'] = array(
+        'title' => t('Use administration theme for batch processing'),
+        'description' => t('Use the administration theme when executing batch operations.'),
+      );
+      if (module_exists('coder')) {
+        $options['coder'] = array(
           'title' => t('Use administration theme for code reviews'),
           'description' => t('Use the administration theme when viewing Coder code reviews.'),
-        ),
-        'service_attachments' => array(
+        );
+      }
+      if (module_exists('service_attachments')) {
+        $options['service_attachments'] = array(
           'title' => t('Use administration theme for viewing the service attachments form on nodes.'),
           'description' => t('Use the administration theme when viewing service attachments on nodes.'),
-        ),
-      );
+        );
+      }
+      return $options;
     case 'check':
       switch ($option) {
         case 'coder':
