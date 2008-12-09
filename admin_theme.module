@@ -52,7 +52,7 @@ function admin_theme_list() {
  * Implementation of hook_form_alter().
  */
 function admin_theme_form_system_admin_theme_settings_alter(&$form, $form_state) {
-  // we want our checkbox before the submit button
+  // we want our checkboxes before the submit button
   $form['buttons']['#weight'] = 10;
 
   // add all options as checkboxes to the admin theme settings form
@@ -98,8 +98,6 @@ function admin_theme_init() {
       $admin_theme = TRUE;
     }
   }
-
-  $admin_theme = TRUE;
   
   // some custom defined pages should get admin theme
   if (trim(variable_get('admin_theme_path', '')) != '') {
