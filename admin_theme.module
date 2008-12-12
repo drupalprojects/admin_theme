@@ -117,6 +117,7 @@ function admin_theme_init() {
   if ($admin_theme) {
     global $custom_theme;
     $custom_theme = variable_get('admin_theme', '0');
+    drupal_add_css(drupal_get_path('module', 'system') .'/admin.css', 'module');
   }
 }
 
