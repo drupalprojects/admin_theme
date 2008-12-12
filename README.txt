@@ -18,7 +18,7 @@ You also have the option to define a custom set of Drupal paths or aliases to ap
 Requirements
 ------------
 
-This module requires Drupal 6.
+This module requires Drupal 5. A Drupal 6 version is avaiable.
 
 
 Installation

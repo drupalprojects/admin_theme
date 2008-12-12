@@ -1,4 +1,3 @@
 ; $Id$
 name = Administration theme
 description = Enable the administration theme on more pages then possible with Drupal's default administration page.
-core = 6.x

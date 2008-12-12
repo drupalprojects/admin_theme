@@ -51,72 +51,76 @@ function admin_theme_list() {
 /**
  * Implementation of hook_form_alter().
  */
-function admin_theme_form_system_admin_theme_settings_alter(&$form, $form_state) {
-  // we want our checkboxes before the submit button
-  $form['buttons']['#weight'] = 10;
-
-  // add all options as checkboxes to the admin theme settings form
-  $list = admin_theme_list();
-  foreach ($list as $info) {
-    $var = admin_theme_variable_name($info['module'], $info['option']);
-    $form[$var] = array(
-      '#type' => 'checkbox',
-      '#title' => array_key_exists('title', $info) ? $info['title'] : NULL,
-      '#description' => array_key_exists('description', $info) ? $info['description'] : NULL,
-      '#default_value' => variable_get($var, '0'),
+function admin_theme_form_alter($form_id, &$form) {
+  if ($form_id == 'system_admin_theme_settings') {
+    // we want our checkboxes before the submit button
+    $form['buttons']['#weight'] = 10;
+    
+    // add all options as checkboxes to the admin theme settings form
+    $list = admin_theme_list();
+    foreach ($list as $info) {
+      $var = admin_theme_variable_name($info['module'], $info['option']);
+      $form[$var] = array(
+        '#type' => 'checkbox',
+        '#title' => array_key_exists('title', $info) ? $info['title'] : NULL,
+        '#description' => array_key_exists('description', $info) ? $info['description'] : NULL,
+        '#default_value' => variable_get($var, '0'),
+      );
+    }
+    
+    // define a custom list of pages
+    $form['admin_theme_path'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Use administration theme on the following pages.'),
+      '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+      '#weight' => 9,
+      '#default_value' => variable_get('admin_theme_path', ''),
     );
   }
-
-  // define a custom list of pages
-  $form['admin_theme_path'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Use administration theme on the following pages.'),
-    '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
-    '#weight' => 9,
-    '#default_value' => variable_get('admin_theme_path', ''),
-  );
 }
 
 /**
  * Implementation of hook_init().
  */
-function admin_theme_init() {
-  // ensure users without the appropriate permissions do not see the admin theme
-  if (!user_access('access admin theme')) {
-    global $custom_theme;
-    $custom_theme = '0';
-    return;
-  }
-  
-  $admin_theme = FALSE;
-  
-  // check if an option is enabled and if it results to TRUE
-  $list = admin_theme_list();
-  foreach ($list as $info) {
-    $var = admin_theme_variable_name($info['module'], $info['option']);
-    if ((bool)variable_get($var, '0') && module_invoke($info['module'], 'admin_theme', 'check', $info['option'])) {
-      $admin_theme = TRUE;
-    }
-  }
-  
-  // some custom defined pages should get admin theme
-  if (trim(variable_get('admin_theme_path', '')) != '') {
-    // pages that are defined by their normal path
-    $match_path = drupal_match_path($_GET['q'], variable_get('admin_theme_path', ''));
-    
-    // pages that are defined with their alias
-    $alias = drupal_get_path_alias($_GET['q']);
-    if ($alias != $_GET['q']) {
-      $match_alias = drupal_match_path($alias, variable_get('admin_theme_path', ''));
+function admin_theme_menu($may_cache) {
+  if (!$may_cache) {
+    // ensure users without the appropriate permissions do not see the admin theme
+    if (!user_access('access admin theme')) {
+      global $custom_theme;
+      $custom_theme = '0';
+      return;
     }
     
-    $admin_theme = $match_path || $match_alias;
-  }
-  
-  // Use the admin theme for the current request (if global admin theme setting is checked).
-  if ($admin_theme) {
-    global $custom_theme;
-    $custom_theme = variable_get('admin_theme', '0');
+    $admin_theme = FALSE;
+    
+    // check if an option is enabled and if it results to TRUE
+    $list = admin_theme_list();
+    foreach ($list as $info) {
+      $var = admin_theme_variable_name($info['module'], $info['option']);
+      if ((bool)variable_get($var, '0') && module_invoke($info['module'], 'admin_theme', 'check', $info['option'])) {
+        $admin_theme = TRUE;
+      }
+    }
+    
+    // some custom defined pages should get admin theme
+    if (trim(variable_get('admin_theme_path', '')) != '') {
+      // pages that are defined by their normal path
+      $match_path = _admin_theme_drupal_match_path($_GET['q'], variable_get('admin_theme_path', ''));
+      
+      // pages that are defined with their alias
+      $alias = drupal_get_path_alias($_GET['q']);
+      if ($alias != $_GET['q']) {
+        $match_alias = _admin_theme_drupal_match_path($alias, variable_get('admin_theme_path', ''));
+      }
+      
+      $admin_theme = $match_path || $match_alias;
+    }
+
+    // Use the admin theme for the current request (if global admin theme setting is checked).
+    if ($admin_theme) {
+      global $custom_theme;
+      $custom_theme = variable_get('admin_theme', '0');
+    }
   }
 }
 
@@ -127,20 +131,14 @@ function admin_theme_admin_theme($op = 'info', $option = NULL) {
   switch ($op) {
     case 'info':
       $options = array();
-      $options['batch'] = array(
-        'title' => t('Use administration theme for batch processing'),
-        'description' => t('Use the administration theme when executing batch operations.'),
+      $options['node'] = array(
+        'title' => t('Use administration theme for content editing'),
+        'description' => t('Use the administration theme when editing existing posts or creating new ones.'),
       );
       if (module_exists('coder')) {
         $options['coder'] = array(
           'title' => t('Use administration theme for code reviews'),
           'description' => t('Use the administration theme when viewing Coder code reviews.'),
-        );
-      }
-      if (module_exists('service_attachments')) {
-        $options['service_attachments'] = array(
-          'title' => t('Use administration theme for viewing the service attachments form on nodes.'),
-          'description' => t('Use the administration theme when viewing service attachments on nodes.'),
         );
       }
       if (module_exists('webform')) {
@@ -158,16 +156,35 @@ function admin_theme_admin_theme($op = 'info', $option = NULL) {
       return $options;
     case 'check':
       switch ($option) {
+        case 'node':
+          return arg(0) == 'node' && (arg(1) == 'add' || arg(2) == 'edit');
         case 'coder':
           return arg(0) == 'coder';
-        case 'batch':
-          return arg(0) == 'batch';
-        case 'service_attachments':
-          return arg(0) == 'node' && arg(2) == 'service_attachments';
         case 'webform_results':
           return arg(0) == 'node' && arg(2) == 'webform-results';
         case 'statistics':
           return (arg(0) == 'node' || arg(0) == 'user') && arg(2) == 'track';
       }
   }
+}
+
+/**
+ * Check if a path matches any pattern in a set of patterns.
+ * Note: This is a port of the Drupal 6 function drupal_match_path($path, $patterns).
+ *
+ * @param $path
+ *   The path to match.
+ * @param $patterns
+ *   String containing a set of patterns separated by \n, \r or \r\n.
+ *
+ * @return
+ *   Boolean value: TRUE if the path matches a pattern, FALSE otherwise.
+ */
+function _admin_theme_drupal_match_path($path, $patterns) {
+  static $regexps;
+
+  if (!isset($regexps[$patterns])) {
+    $regexps[$patterns] = '/^('. preg_replace(array('/(\r\n?|\n)/', '/\\\\\*/', '/(^|\|)\\\\<front\\\\>($|\|)/'), array('|', '.*', '\1'. preg_quote(variable_get('site_frontpage', 'node'), '/') .'\2'), preg_quote($patterns, '/')) .')$/';
+  }
+  return preg_match($regexps[$patterns], $path);
 }
