@@ -18,7 +18,7 @@ You also have the option to define a custom set of Drupal paths or aliases to ap
 Requirements
 ------------
 
-This module requires Drupal 6.
+This module requires Drupal 6. A Drupal 5 version is available.
 
 
 Installation
@@ -36,7 +36,7 @@ Configuration
 You can enable/disable the administration theme on the administration theme
 configuration page.
 
-Instant search can be configured at : 
+Administration theme can be configured at : 
   Administer -> Site configuration -> Administration theme
   
 Developers
