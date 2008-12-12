@@ -36,7 +36,7 @@ Configuration
 You can enable/disable the administration theme on the administration theme
 configuration page.
 
-Instant search can be configured at : 
+Administration theme can be configured at : 
   Administer -> Site configuration -> Administration theme
   
 Developers
