@@ -18,7 +18,7 @@ You also have the option to define a custom set of Drupal paths or aliases to ap
 Requirements
 ------------
 
-This module requires Drupal 6. A Drupal 5 version is available.
+This module requires Drupal 7. A Drupal 5 and 6 version are available.
 
 
 Installation
@@ -41,8 +41,8 @@ Administration theme can be configured at :
   
 Developers
 ----------
-You can add define extra pages where the administration theme should be applied to by implementing the hook_admin_theme hook in your modules.
-This hook uses an $op variable to specify two operation that can be done: getting all "options" and checking if an option should be applied to a path. Check out admin_theme_admin_theme for an example implementation.
+You can add define extra pages where the administration theme should be applied to by implementing the hook_admin_theme_info and hook_admin_theme_check hooks in your modules.
+The first one gets all "options" and the second one checks if each of those options should should be applied to a path. Check out admin_theme_admin_theme_info and admin-theme_admin_theme_check for an example implementation.
 
 
 Author
