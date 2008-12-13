@@ -162,7 +162,7 @@ function admin_theme_admin_theme($op = 'info', $option = NULL) {
         case 'coder':
           return arg(0) == 'coder';
         case 'webform_results':
-          return arg(0) == 'node' && arg(2) == 'webform-results';
+          return arg(0) == 'node' && arg(2) == 'results';
         case 'statistics':
           return (arg(0) == 'node' || arg(0) == 'user') && arg(2) == 'track';
       }
