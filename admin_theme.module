@@ -56,11 +56,32 @@ function admin_theme_form_alter($form_id, &$form) {
     // we want our checkboxes before the submit button
     $form['buttons']['#weight'] = 10;
     
+    // define a fieldset for the theme
+    $form['theme'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Theme'),
+      '#collapsible' => TRUE,
+    );
+    $form['theme']['#description'] = $form['admin_theme']['#description'];
+    unset($form['admin_theme']['#description']);
+    
+    // add the core administration theme select field to this fieldset
+    $form['theme']['admin_theme'] = $form['admin_theme'];
+    unset($form['admin_theme']);
+    
+    // define a fieldset for the page selection
+    $form['pages'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Pages'),
+      '#collapsible' => TRUE,
+      '#description' => t('Choose which pages should be displayed with the administration theme.')
+    );
+    
     // add all options as checkboxes to the admin theme settings form
     $list = admin_theme_list();
     foreach ($list as $info) {
       $var = admin_theme_variable_name($info['module'], $info['option']);
-      $form[$var] = array(
+      $form['pages'][$var] = array(
         '#type' => 'checkbox',
         '#title' => array_key_exists('title', $info) ? $info['title'] : NULL,
         '#description' => array_key_exists('description', $info) ? $info['description'] : NULL,
@@ -68,13 +89,25 @@ function admin_theme_form_alter($form_id, &$form) {
       );
     }
     
-    // define a custom list of pages
-    $form['admin_theme_path'] = array(
+    // allow the user to define a set of pages where the admin theme should or should not be applied to
+    $form['pages']['custom'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Custom'),
+      '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#weight' => 9,
+    );
+    $form['pages']['custom']['admin_theme_path'] = array(
       '#type' => 'textarea',
       '#title' => t('Use administration theme on the following pages.'),
-      '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
-      '#weight' => 9,
       '#default_value' => variable_get('admin_theme_path', ''),
+    );
+    $form['pages']['custom']['admin_theme_path_disallow'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Do not use administration theme on the following pages.'),
+      '#description' => t('If a path appears here, the administration theme is not shown even if all above options apply.'),
+      '#default_value' => variable_get('admin_theme_path_disallow', ''),
     );
   }
 }
@@ -84,15 +117,28 @@ function admin_theme_form_alter($form_id, &$form) {
  */
 function admin_theme_menu($may_cache) {
   if (!$may_cache) {
-    // ensure users without the appropriate permissions do not see the admin theme
-    if (!user_access('access admin theme')) {
+    $admin_theme_disallow = FALSE;
+    $admin_theme = FALSE;
+
+    // check if some paths are disallow to get the theme
+    if (trim(variable_get('admin_theme_path_disallow', '')) != '') {
+      // pages that are defined by their normal path
+      $admin_theme_disallow = _admin_theme_drupal_match_path($_GET['q'], variable_get('admin_theme_path_disallow', ''));
+
+      // pages that are defined with their alias
+      $alias = drupal_get_path_alias($_GET['q']);
+      if ($alias != $_GET['q']) {
+        $admin_theme_disallow = $admin_theme || _admin_theme_drupal_match_path($alias, variable_get('admin_theme_path_disallow', ''));
+      }
+    }
+
+    // we should not show the admin theme if the user has no access or the path is in the disallow list
+    if (!user_access('access admin theme') || $admin_theme_disallow) {
       global $custom_theme;
       $custom_theme = '0';
       return;
     }
-    
-    $admin_theme = FALSE;
-    
+
     // check if an option is enabled and if it results to TRUE
     $list = admin_theme_list();
     foreach ($list as $info) {
@@ -101,12 +147,12 @@ function admin_theme_menu($may_cache) {
         $admin_theme = TRUE;
       }
     }
-    
+
     // some custom defined pages should get admin theme
     if (trim(variable_get('admin_theme_path', '')) != '') {
       // pages that are defined by their normal path
       $admin_theme = _admin_theme_drupal_match_path($_GET['q'], variable_get('admin_theme_path', ''));
-      
+
       // pages that are defined with their alias
       $alias = drupal_get_path_alias($_GET['q']);
       if ($alias != $_GET['q']) {
