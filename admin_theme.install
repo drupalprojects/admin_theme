@@ -15,6 +15,7 @@ function admin_theme_install() {
 function admin_theme_uninstall() {
   // cleaning up general admin theme variables
   variable_del('admin_theme_path');
+  variable_del('admin_theme_path_disallow');
   
   // cleaning up module defined admin theme variables
   
