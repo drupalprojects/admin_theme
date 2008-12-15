@@ -122,11 +122,6 @@ function admin_theme_init() {
   $admin_theme_disallow = FALSE;
   $admin_theme = FALSE;
   
-  // check if user is allowed to get the theme
-  if (!user_access('access admin theme')) {
-    $admin_theme_disallow;
-  }
-  
   // check if some paths are disallow to get the theme
   if (trim(variable_get('admin_theme_path_disallow', '')) != '') {
     // pages that are defined by their normal path
@@ -139,8 +134,8 @@ function admin_theme_init() {
     }
   }
   
-  // we should now show the admin theme
-  if ($admin_theme_disallow) {
+  // we should not show the admin theme if the user has no access or the path is in the disallow list
+  if (!user_access('access admin theme') || $admin_theme_disallow) {
     global $custom_theme;
     $custom_theme = '0';
     return;
