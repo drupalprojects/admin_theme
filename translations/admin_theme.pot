@@ -1,122 +1,122 @@
 # $Id$
 #
-# Dutch translation of Drupal (general)
+# LANGUAGE translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
 #  admin_theme.module,v 1.1.2.9 2008/12/13 09:17:01 davyvandenbremt
 #  admin_theme.install,v 1.1.2.2 2008/12/08 18:37:44 davyvandenbremt
 #  admin_theme.info,v 1.1 2008/11/14 21:34:23 davyvandenbremt
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Administration Theme\n"
-"POT-Creation-Date: 2008-11-29 10:18+0100\n"
-"PO-Revision-Date: 2008-11-29 10:27+0100\n"
-"Last-Translator: Davy Van Den Bremt <info@davyvandenbremt.be>\n"
-"Language-Team: Davy Van Den Bremt <info@davyvandenbremt.be>\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2008-12-15 16:59+0100\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: Dutch\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: admin_theme.module:61
 msgid "Theme"
-msgstr "Template"
+msgstr ""
 
 #: admin_theme.module:74
 msgid "Pages"
-msgstr "Pagina's"
+msgstr ""
 
 #: admin_theme.module:76
 msgid "Choose which pages should be displayed with the administration theme."
-msgstr "Kies welke pagina's met de beheertemplate getoond moeten worden."
+msgstr ""
 
 #: admin_theme.module:81
 msgid "Content editing"
-msgstr "Bewerken van inhoud"
+msgstr ""
 
 #: admin_theme.module:99
 msgid "Custom"
-msgstr "Specifiek"
+msgstr ""
 
 #: admin_theme.module:100
 msgid "Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page."
-msgstr "Geef één pagina per regel op, als Drupal-paden. Het '*'-teken is een jokerteken. Voorbeeldpaden zijn '%blog' voor de blog-pagina en '%blog-wildcard' voor elke persoonlijke blog. '%front' is de voorpagina."
+msgstr ""
 
 #: admin_theme.module:107
 msgid "Use administration theme on the following pages."
-msgstr "Gebruik de beheertemplate voor de volgende pagina's."
+msgstr ""
 
 #: admin_theme.module:112
 msgid "Do not use administration theme on the following pages."
-msgstr "Gebruik de beheertemplate niet voor de volgende pagina's."
+msgstr ""
 
 #: admin_theme.module:113
 msgid "If a path appears here, the administration theme is not shown even if all above options apply."
-msgstr "Wanneer een pad hier vermeld wordt, word de beheertemplate niet getoond, zelfs als bovenstaande opties van toepassing zijn."
+msgstr ""
 
 #: admin_theme.module:186
 msgid "Batch processing"
-msgstr "Batch verwerking"
+msgstr ""
 
 #: admin_theme.module:187
 msgid "Use the administration theme when executing batch operations."
-msgstr "Gebruik de beheertemplate tijdens het verwerken van batch handelingen."
+msgstr ""
 
 #: admin_theme.module:191
 msgid "Code reviews"
-msgstr "Code revisies"
+msgstr ""
 
 #: admin_theme.module:192
 msgid "Use the administration theme when viewing Coder code reviews."
-msgstr "Gebruik de beheertemplate tijdens het bekijken van Coder's code revisies."
+msgstr ""
 
 #: admin_theme.module:197
 msgid "Service attachments form on nodes."
-msgstr "Service attachments formulier bij nodes."
+msgstr ""
 
 #: admin_theme.module:198
 msgid "Use the administration theme when viewing service attachments on nodes."
-msgstr "Gebruik de beheertemplate tijdens het bekijken van het service attachments formulier bij nodes."
+msgstr ""
 
 #: admin_theme.module:203
 msgid "Webform submissions."
-msgstr "Webformulier inzendingen."
+msgstr ""
 
 #: admin_theme.module:204
 msgid "Use the administration theme when viewing webform submissions."
-msgstr "Gebruik de beheertemplate tijdens het bekijken van webformulier inzendingen."
+msgstr ""
 
 #: admin_theme.module:209
 msgid "Pages defined by the statistics module."
-msgstr "Pagina's van de statistics module"
+msgstr ""
 
 #: admin_theme.module:210
 msgid "Use the administration theme when viewing pages of the statistics module."
-msgstr "Gebruik de beheertemplate tijdens het bekijken van pagina's van de statistics module."
+msgstr ""
 
 #: admin_theme.module:13
 msgid "access admin theme"
-msgstr "toegang tot beheertemplate"
+msgstr ""
 
 #: admin_theme.module:0
 msgid "admin_theme"
-msgstr "admin_theme"
+msgstr ""
 
 #: admin_theme.install:8
 msgid "Administer > Site configuration > Administration theme"
-msgstr "Beheren > Site-instellingen > Beheertemplate"
+msgstr ""
 
 #: admin_theme.install:9
 msgid "Administration theme module settings are available under !link"
-msgstr "Instellingen voor de Administration theme module zijn beschikbaar onder !link"
+msgstr ""
 
 #: admin_theme.info:0
 msgid "Administration theme"
-msgstr "Beheertemplate"
+msgstr ""
 
 #: admin_theme.info:0
 msgid "Enable the administration theme on more pages then possible with Drupal's default administration page."
-msgstr "Gebruik de beheertemplate op meer pagina's dan instelbaar met Drupal's standaard beheer pagina."
+msgstr ""
 
