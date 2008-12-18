@@ -222,7 +222,6 @@ function admin_theme_admin_theme($op = 'info', $option = NULL) {
       switch ($option) {
         case 'img_assist':
           return arg(0) == 'img_assist';
-        case 'devel':
         case 'coder':
           return arg(0) == 'coder';
         case 'devel':
