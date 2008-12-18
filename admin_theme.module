@@ -180,10 +180,22 @@ function admin_theme_admin_theme($op = 'info', $option = NULL) {
         'title' => t('Use administration theme for content editing'),
         'description' => t('Use the administration theme when editing existing posts or creating new ones.'),
       );
+      if (module_exists('img_assist')) {
+        $options['img_assist'] = array(
+          'title' => t('Image assist'),
+          'description' => t('Use the administration theme when viewing the Image assist popup window.'),
+        );
+      }
       if (module_exists('coder')) {
         $options['coder'] = array(
           'title' => t('Use administration theme for code reviews'),
           'description' => t('Use the administration theme when viewing Coder code reviews.'),
+        );
+      }
+      if (module_exists('devel')) {
+        $options['devel'] = array(
+          'title' => t('Devel pages.'),
+          'description' => t('Use the administration theme when viewing pages of the devel module (hook_elements(), Dev render, Dev load, Session viewer, Theme registery, Variable editor, ...).'),
         );
       }
       if (module_exists('webform')) {
@@ -203,8 +215,12 @@ function admin_theme_admin_theme($op = 'info', $option = NULL) {
       switch ($option) {
         case 'node':
           return arg(0) == 'node' && (arg(1) == 'add' || arg(2) == 'edit');
+        case 'img_assist':
+          return arg(0) == 'img_assist';
         case 'coder':
           return arg(0) == 'coder';
+        case 'devel':
+          return arg(0) == 'devel' || (arg(0) == 'node' && arg(2) == 'devel');
         case 'webform_results':
           return arg(0) == 'node' && arg(2) == 'results';
         case 'statistics':
