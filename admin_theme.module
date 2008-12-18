@@ -181,10 +181,22 @@ function admin_theme_admin_theme($op = 'info', $option = NULL) {
         'title' => t('Batch processing'),
         'description' => t('Use the administration theme when executing batch operations.'),
       );
+      if (module_exists('img_assist')) {
+        $options['img_assist'] = array(
+          'title' => t('Image assist'),
+          'description' => t('Use the administration theme when viewing the Image assist popup window.'),
+        );
+      }
       if (module_exists('coder')) {
         $options['coder'] = array(
           'title' => t('Code reviews'),
           'description' => t('Use the administration theme when viewing Coder code reviews.'),
+        );
+      }
+      if (module_exists('devel')) {
+        $options['devel'] = array(
+          'title' => t('Devel pages.'),
+          'description' => t('Use the administration theme when viewing pages of the devel module (hook_elements(), Dev render, Dev load, Session viewer, Theme registery, Variable editor, ...).'),
         );
       }
       if (module_exists('service_attachments')) {
@@ -208,8 +220,13 @@ function admin_theme_admin_theme($op = 'info', $option = NULL) {
       return $options;
     case 'check':
       switch ($option) {
+        case 'img_assist':
+          return arg(0) == 'img_assist';
+        case 'devel':
         case 'coder':
           return arg(0) == 'coder';
+        case 'devel':
+          return arg(0) == 'devel' || (arg(0) == 'node' && arg(2) == 'devel');
         case 'batch':
           return arg(0) == 'batch';
         case 'service_attachments':
