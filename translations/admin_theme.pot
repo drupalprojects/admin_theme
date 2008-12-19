@@ -3,15 +3,15 @@
 # LANGUAGE translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
-#  admin_theme.module,v 1.1.2.9 2008/12/13 09:17:01 davyvandenbremt
-#  admin_theme.install,v 1.1.2.2 2008/12/08 18:37:44 davyvandenbremt
-#  admin_theme.info,v 1.1 2008/11/14 21:34:23 davyvandenbremt
+#  admin_theme.module,v 1.1.2.7.2.6 2008/12/18 10:25:47 davyvandenbremt
+#  admin_theme.install,v 1.1.2.2.2.1 2008/12/15 17:39:33 davyvandenbremt
+#  admin_theme.info,v 1.1.4.1 2008/12/12 12:03:15 davyvandenbremt
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2008-12-15 16:59+0100\n"
+"POT-Creation-Date: 2008-12-19 11:58+0100\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -20,48 +20,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: admin_theme.module:61
+#: admin_theme.module:62
 msgid "Theme"
 msgstr ""
 
-#: admin_theme.module:74
+#: admin_theme.module:75
 msgid "Pages"
 msgstr ""
 
-#: admin_theme.module:76
+#: admin_theme.module:77
 msgid "Choose which pages should be displayed with the administration theme."
 msgstr ""
 
-#: admin_theme.module:81
-msgid "Content editing"
+#: admin_theme.module:95
+msgid "Custom pages"
 msgstr ""
 
-#: admin_theme.module:99
-msgid "Custom"
-msgstr ""
-
-#: admin_theme.module:100
+#: admin_theme.module:96
 msgid "Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page."
 msgstr ""
 
-#: admin_theme.module:107
+#: admin_theme.module:103
 msgid "Use administration theme on the following pages."
 msgstr ""
 
-#: admin_theme.module:112
+#: admin_theme.module:108
 msgid "Do not use administration theme on the following pages."
 msgstr ""
 
-#: admin_theme.module:113
+#: admin_theme.module:109
 msgid "If a path appears here, the administration theme is not shown even if all above options apply."
 msgstr ""
 
-#: admin_theme.module:186
-msgid "Batch processing"
+#: admin_theme.module:180
+msgid "Content editing"
 msgstr ""
 
-#: admin_theme.module:187
-msgid "Use the administration theme when executing batch operations."
+#: admin_theme.module:181
+msgid "Use the administration theme when editing existing posts or creating new ones."
+msgstr ""
+
+#: admin_theme.module:185
+msgid "Image assist"
+msgstr ""
+
+#: admin_theme.module:186
+msgid "Use the administration theme when viewing the Image assist popup window."
 msgstr ""
 
 #: admin_theme.module:191
@@ -73,11 +77,11 @@ msgid "Use the administration theme when viewing Coder code reviews."
 msgstr ""
 
 #: admin_theme.module:197
-msgid "Service attachments form on nodes."
+msgid "Devel pages"
 msgstr ""
 
 #: admin_theme.module:198
-msgid "Use the administration theme when viewing service attachments on nodes."
+msgid "Use the administration theme when viewing pages of the devel module (hook_elements(), Dev render, Dev load, Session viewer, Theme registery, Variable editor, ...)."
 msgstr ""
 
 #: admin_theme.module:203
@@ -89,7 +93,7 @@ msgid "Use the administration theme when viewing webform submissions."
 msgstr ""
 
 #: admin_theme.module:209
-msgid "Pages defined by the statistics module."
+msgid "Statistics pages"
 msgstr ""
 
 #: admin_theme.module:210
