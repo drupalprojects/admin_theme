@@ -3,15 +3,15 @@
 # LANGUAGE translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
-#  admin_theme.module,v 1.1.2.9 2008/12/13 09:17:01 davyvandenbremt
-#  admin_theme.install,v 1.1.2.2 2008/12/08 18:37:44 davyvandenbremt
+#  admin_theme.module,v 1.1.2.13 2008/12/18 10:26:49 davyvandenbremt
+#  admin_theme.install,v 1.1.2.3 2008/12/15 17:39:52 davyvandenbremt
 #  admin_theme.info,v 1.1 2008/11/14 21:34:23 davyvandenbremt
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2008-12-15 16:59+0100\n"
+"POT-Creation-Date: 2008-12-19 10:03+0100\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -37,7 +37,7 @@ msgid "Content editing"
 msgstr ""
 
 #: admin_theme.module:99
-msgid "Custom"
+msgid "Custom pages"
 msgstr ""
 
 #: admin_theme.module:100
@@ -56,43 +56,59 @@ msgstr ""
 msgid "If a path appears here, the administration theme is not shown even if all above options apply."
 msgstr ""
 
-#: admin_theme.module:186
+#: admin_theme.module:181
 msgid "Batch processing"
 msgstr ""
 
-#: admin_theme.module:187
+#: admin_theme.module:182
 msgid "Use the administration theme when executing batch operations."
 msgstr ""
 
-#: admin_theme.module:191
-msgid "Code reviews"
+#: admin_theme.module:186
+msgid "Image assist"
+msgstr ""
+
+#: admin_theme.module:187
+msgid "Use the administration theme when viewing the Image assist popup window."
 msgstr ""
 
 #: admin_theme.module:192
+msgid "Code reviews"
+msgstr ""
+
+#: admin_theme.module:193
 msgid "Use the administration theme when viewing Coder code reviews."
 msgstr ""
 
-#: admin_theme.module:197
-msgid "Service attachments form on nodes."
-msgstr ""
-
 #: admin_theme.module:198
-msgid "Use the administration theme when viewing service attachments on nodes."
+msgid "Devel pages"
 msgstr ""
 
-#: admin_theme.module:203
-msgid "Webform submissions."
+#: admin_theme.module:199
+msgid "Use the administration theme when viewing pages of the devel module (hook_elements(), Dev render, Dev load, Session viewer, Theme registery, Variable editor, ...)."
 msgstr ""
 
 #: admin_theme.module:204
-msgid "Use the administration theme when viewing webform submissions."
+msgid "Service attachments form on nodes"
 msgstr ""
 
-#: admin_theme.module:209
-msgid "Pages defined by the statistics module."
+#: admin_theme.module:205
+msgid "Use the administration theme when viewing service attachments on nodes."
 msgstr ""
 
 #: admin_theme.module:210
+msgid "Webform submissions"
+msgstr ""
+
+#: admin_theme.module:211
+msgid "Use the administration theme when viewing webform submissions."
+msgstr ""
+
+#: admin_theme.module:216
+msgid "Statistics pages"
+msgstr ""
+
+#: admin_theme.module:217
 msgid "Use the administration theme when viewing pages of the statistics module."
 msgstr ""
 

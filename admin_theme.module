@@ -96,7 +96,7 @@ function admin_theme_form_system_admin_theme_settings_alter(&$form, $form_state)
   // allow the user to define a set of pages where the admin theme should or should not be applied to
   $form['pages']['custom'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Custom'),
+    '#title' => t('Custom pages'),
     '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
@@ -195,25 +195,25 @@ function admin_theme_admin_theme($op = 'info', $option = NULL) {
       }
       if (module_exists('devel')) {
         $options['devel'] = array(
-          'title' => t('Devel pages.'),
+          'title' => t('Devel pages'),
           'description' => t('Use the administration theme when viewing pages of the devel module (hook_elements(), Dev render, Dev load, Session viewer, Theme registery, Variable editor, ...).'),
         );
       }
       if (module_exists('service_attachments')) {
         $options['service_attachments'] = array(
-          'title' => t('Service attachments form on nodes.'),
+          'title' => t('Service attachments form on nodes'),
           'description' => t('Use the administration theme when viewing service attachments on nodes.'),
         );
       }
       if (module_exists('webform')) {
         $options['webform_results'] = array(
-          'title' => t('Webform submissions.'),
+          'title' => t('Webform submissions'),
           'description' => t('Use the administration theme when viewing webform submissions.'),
         );
       }
       if (module_exists('statistics')) {
         $options['statistics'] = array(
-          'title' => t('Pages defined by the statistics module.'),
+          'title' => t('Statistics pages'),
           'description' => t('Use the administration theme when viewing pages of the statistics module.'),
         );
       }
