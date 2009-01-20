@@ -153,7 +153,7 @@ function admin_theme_init() {
   // some custom defined pages should get admin theme
   if (trim(variable_get('admin_theme_path', '')) != '') {
     // pages that are defined by their normal path
-    $admin_theme = drupal_match_path($_GET['q'], variable_get('admin_theme_path', ''));
+    $admin_theme = $admin_theme || drupal_match_path($_GET['q'], variable_get('admin_theme_path', ''));
     
     // pages that are defined with their alias
     $alias = drupal_get_path_alias($_GET['q']);
