@@ -36,7 +36,7 @@ function admin_theme_variable_name($module, $option) {
 function admin_theme_list() {
   $options = array();
   foreach (module_list() as $module) {
-    $module_options = module_invoke($module, 'admin_theme', 'info');
+    $module_options = module_invoke($module, 'admin_theme_options', 'info');
     if (count($module_options) > 0) {
       foreach ($module_options as $option => $info) {
         $info['option'] = $option;
@@ -143,7 +143,7 @@ function admin_theme_menu($may_cache) {
     $list = admin_theme_list();
     foreach ($list as $info) {
       $var = admin_theme_variable_name($info['module'], $info['option']);
-      if ((bool)variable_get($var, '0') && module_invoke($info['module'], 'admin_theme', 'check', $info['option'])) {
+      if ((bool)variable_get($var, '0') && module_invoke($info['module'], 'admin_theme_options', 'check', $info['option'])) {
         $admin_theme = TRUE;
       }
     }
@@ -172,7 +172,7 @@ function admin_theme_menu($may_cache) {
 /**
  * Implementation of hook_admin_theme().
  */
-function admin_theme_admin_theme($op = 'info', $option = NULL) {
+function admin_theme_admin_theme_options($op = 'info', $option = NULL) {
   switch ($op) {
     case 'info':
       $options = array();

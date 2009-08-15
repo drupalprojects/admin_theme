@@ -41,7 +41,7 @@ Administration theme can be configured at :
   
 Developers
 ----------
-You can add define extra pages where the administration theme should be applied to by implementing the hook_admin_theme hook in your modules.
+You can add define extra pages where the administration theme should be applied to by implementing the hook_admin_theme_options hook in your modules.
 This hook uses an $op variable to specify two operation that can be done: getting all "options" and checking if an option should be applied to a path. Check out admin_theme_admin_theme for an example implementation.
 
 
