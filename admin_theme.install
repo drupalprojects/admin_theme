@@ -5,7 +5,7 @@
  * Implementation of hook_install().
  */
 function admin_theme_install() {
-  $link = array('!link' => l(t('Administer > Site configuration > Administration theme'), 'admin/settings/admin'));
+  $link = array('!link' => l(t('Administer > Appearance > Administration theme'), 'admin/appearance'));
   drupal_set_message(t("Administration theme module settings are available under !link", $link));
 }
 
