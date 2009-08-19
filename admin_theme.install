@@ -20,7 +20,7 @@ function admin_theme_uninstall() {
   // cleaning up module defined admin theme variables
   
   // we need to add admin theme's explicitly because it's not in the list of modules anymore
-  $admin_theme_options = admin_theme_admin_theme('info');
+  $admin_theme_options = admin_theme_admin_theme_options('info');
   $options = array();
   foreach ($admin_theme_options as $option => $info) {
     $info['option'] = $option;
