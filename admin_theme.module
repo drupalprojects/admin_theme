@@ -146,7 +146,7 @@ function admin_theme_init() {
   // we should not show the admin theme if the user has no access or the path is in the disallow list
   if (!user_access('access admin theme') || $admin_theme_disallow) {
     global $custom_theme;
-    unset($custom_theme);
+    unset($_GLOBALS['custom_theme']);
     return;
   }
   
