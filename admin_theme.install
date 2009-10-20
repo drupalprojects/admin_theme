@@ -5,6 +5,9 @@
  * Implementation of hook_install().
  */
 function admin_theme_install() {
+  // updating module weight to 10 to make it run after system (for user access checks etc)
+  db_query("UPDATE {system} SET weight = 10 WHERE name = 'admin_theme'");
+  
   $link = array('!link' => l(t('Administer > Appearance > Administration theme'), 'admin/appearance'));
   drupal_set_message(t("Administration theme module settings are available under !link", $link));
 }
