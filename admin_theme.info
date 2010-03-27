@@ -1,6 +1,6 @@
 ; $Id$
 name = Administration theme
-description = Enable the administration theme on more pages then possible with Drupal's default administration page.
+description = Enable the administration theme on more pages than possible with Drupal's default administration page.
 core = 7.x
 package = Administration
 files[] = admin_theme.module
