@@ -93,12 +93,12 @@ function admin_theme_form_system_themes_admin_form_alter(&$form, $form_state) {
   );
   $form['admin_theme']['pages']['custom']['admin_theme_path'] = array(
     '#type' => 'textarea',
-    '#title' => t('Use administration theme on the following pages.'),
+    '#title' => t('Use administration theme on the following pages'),
     '#default_value' => variable_get('admin_theme_path', ''),
   );
   $form['admin_theme']['pages']['custom']['admin_theme_path_disallow'] = array(
     '#type' => 'textarea',
-    '#title' => t('Do not use administration theme on the following pages.'),
+    '#title' => t('Do not use administration theme on the following pages'),
     '#description' => t('If a path appears here, the administration theme is not shown even if all above options apply.'),
     '#default_value' => variable_get('admin_theme_path_disallow', ''),
   );
