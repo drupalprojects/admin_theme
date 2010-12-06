@@ -127,9 +127,9 @@ function admin_theme_form_system_themes_form_alter_submit($form, &$form_state) {
 }
 
 /**
- * Implementation of hook_init().
+ * Implementation of hook_custom_theme().
  */
-function admin_theme_init() {
+function admin_theme_custom_theme() {
   $admin_theme_disallow = FALSE;
   $admin_theme = FALSE;
   
@@ -147,8 +147,6 @@ function admin_theme_init() {
 
   // we should not show the admin theme if the user has no access or the path is in the disallow list
   if (!user_access('access admin theme') || $admin_theme_disallow) {
-    global $custom_theme;
-    unset($_GLOBALS['custom_theme']);
     return;
   }
   
@@ -172,13 +170,12 @@ function admin_theme_init() {
       $admin_theme = $admin_theme || drupal_match_path($alias, variable_get('admin_theme_path', ''));
     }
   }
-  
   // Use the admin theme for the current request (if global admin theme setting is checked).
   if ($admin_theme) {
-    global $custom_theme;
-    $custom_theme = variable_get('admin_theme', '0');
-    drupal_add_css(drupal_get_path('module', 'system') .'/admin.css');
+    return variable_get('admin_theme');
   }
+  
+  return;
 }
 
 /**
