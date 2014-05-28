@@ -19,11 +19,11 @@ function admin_theme_uninstall() {
   // Cleaning up general admin theme variables.
   variable_del('admin_theme_path');
   variable_del('admin_theme_path_disallow');
-  
+
   // Cleaning up module defined admin theme variables.
-  
   // We need to add admin theme's explicitly,
   // because it's not in the list of modules anymore.
+  drupal_load('module', 'admin_theme');
   $admin_theme_options = admin_theme_admin_theme_info();
   $options = array();
   foreach ($admin_theme_options as $option => $info) {
@@ -31,11 +31,11 @@ function admin_theme_uninstall() {
     $info['module'] = 'admin_theme';
     $options[] = $info;
   }
-  
+
   // Merging admin theme's options with other module options.
-  // @fixme does this work if other modules are also uninstalled at the same time?
+  // @fixme Does this work if other modules are also uninstalled simultaneously?
   $list = array_merge(admin_theme_list(), $options);
-  
+
   // Deleting the module defined variables.
   foreach ($list as $info) {
     $var = admin_theme_variable_name($info['module'], $info['option']);
