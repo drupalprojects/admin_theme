@@ -3,9 +3,8 @@
 namespace Drupal\admin_theme\Routing;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Executable\ExecutableManagerInterface;
 use Drupal\Core\Routing\AdminContext;
-use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Url;
 use Symfony\Component\Routing\Route;
 
 /**
@@ -23,11 +22,11 @@ class AdminThemeAdminContext extends AdminContext {
   protected $subject;
 
   /**
-   * The route match.
+   * The condition manager.
    *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
+   * @var \Drupal\Core\Executable\ExecutableManagerInterface
    */
-  protected $routeMatch;
+  protected $conditionManager;
 
   /**
    * The config factory.
@@ -41,14 +40,14 @@ class AdminThemeAdminContext extends AdminContext {
    *
    * @param \Drupal\Core\Routing\AdminContext $subject
    *   The decorated admin context service.
-   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
-   *   The route match.
+   * @param \Drupal\Core\Executable\ExecutableManagerInterface $condition_manager
+   *   The condition manager
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
    */
-  public function __construct(AdminContext $subject, RouteMatchInterface $route_match, ConfigFactoryInterface $config_factory) {
+  public function __construct(AdminContext $subject, ExecutableManagerInterface $condition_manager, ConfigFactoryInterface $config_factory) {
     $this->subject = $subject;
-    $this->routeMatch = $route_match;
+    $this->conditionManager = $condition_manager;
     $this->configFactory = $config_factory;
   }
 
@@ -56,18 +55,9 @@ class AdminThemeAdminContext extends AdminContext {
    * {@inheritdoc}
    */
   public function isAdminRoute(Route $route = NULL) {
-    if (!$route) {
-      $route = $this->routeMatch->getRouteObject();
-      if (!$route) {
-        return FALSE;
-      }
-    }
-
     $paths = $this->configFactory->get('admin_theme.settings')->get('paths');
-    $paths = array_map('trim', explode("\n", $paths));
-
-    $internal_path = '/' . Url::fromRouteMatch($this->routeMatch)->getInternalPath();
-    if (in_array($internal_path, $paths, TRUE)) {
+    $condition = $this->conditionManager->createInstance('request_path', ['pages' => $paths]);
+    if ($this->conditionManager->execute($condition)) {
       return TRUE;
     }
 

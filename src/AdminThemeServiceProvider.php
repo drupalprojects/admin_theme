@@ -18,7 +18,7 @@ class AdminThemeServiceProvider extends ServiceProviderBase {
   public function alter(ContainerBuilder $container) {
     $container->register('admin_theme.admin_context', AdminThemeAdminContext::class)
       ->addArgument(new Reference('admin_theme.admin_context.inner'))
-      ->addArgument(new Reference('current_route_match'))
+      ->addArgument(new Reference('plugin.manager.condition'))
       ->addArgument(new Reference('config.factory'))
       ->setPublic(FALSE)
       ->setDecoratedService('router.admin_context');

@@ -1,5 +1,6 @@
 <?php
 
+use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -9,16 +10,13 @@ use Drupal\Core\Form\FormStateInterface;
  */
 function admin_theme_form_system_themes_admin_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $paths = \Drupal::configFactory()->getEditable('admin_theme.settings')->get('paths');
-  $form['admin_theme']['admin_theme_paths'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Pages'),
-    '#default_value' => $paths,
-    '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %user for the current user's page and %user-wildcard for every user page. %front is the front page.", array(
-      '%user' => '/user',
-      '%user-wildcard' => '/user/*',
-      '%front' => '<front>',
-    )),
-  );
+  $condition = \Drupal::service('plugin.manager.condition')->createInstance('request_path', ['pages' => $paths]);
+  $form_state->set(['conditions', 'admin_theme_request_path'], $condition);
+
+  $form['admin_theme']['admin_theme_request_path'] = $condition->buildConfigurationForm([], $form_state);
+  $form['admin_theme']['admin_theme_request_path']['#tree'] = TRUE;
+  unset($form['admin_theme']['admin_theme_request_path']['negate']);
+
   $form['#submit'][] = 'admin_theme_form_system_themes_form_alter_submit';
 }
 
@@ -28,8 +26,14 @@ function admin_theme_form_system_themes_admin_form_alter(&$form, FormStateInterf
  * @see admin_theme_form_system_themes_admin_form_alter()
  */
 function admin_theme_form_system_themes_form_alter_submit($form, FormStateInterface $form_state) {
+  $condition = $form_state->get(['conditions', 'admin_theme_request_path']);
+  $condition_values = (new FormState())->setValues($form_state->getValue('admin_theme_request_path'));
+
+  $condition->submitConfigurationForm($form, $condition_values);
+  $condition_configuration = $condition->getConfiguration();
+
   \Drupal::configFactory()->getEditable('admin_theme.settings')
-    ->set('paths', $form_state->getValue('admin_theme_paths'))
+    ->set('paths', $condition_configuration['pages'])
     ->save();
   \Drupal::service('router.builder')->setRebuildNeeded();
 }
