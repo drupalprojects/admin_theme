@@ -1,6 +1,0 @@
-services:
-  admin_theme.admin_path.route_subscriber:
-    class: Drupal\admin_theme\EventSubscriber\AdminThemeRouteSubscriber
-    arguments: ['@config.factory']
-    tags:
-      - { name: event_subscriber }
