@@ -38,6 +38,13 @@ class AdminThemeAdminContext extends AdminContext {
 
   /**
    * AdminThemeAdminContext constructor.
+   *
+   * @param \Drupal\Core\Routing\AdminContext $subject
+   *   The decorated admin context service.
+   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   *   The route match.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
    */
   public function __construct(AdminContext $subject, RouteMatchInterface $route_match, ConfigFactoryInterface $config_factory) {
     $this->subject = $subject;
