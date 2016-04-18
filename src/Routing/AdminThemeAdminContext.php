@@ -10,7 +10,8 @@ use Symfony\Component\Routing\Route;
 /**
  * Decorates the core AdminContext to check custom admin paths.
  *
- * @todo Do not extend the decorated class, implement an interface.
+ * @todo Do not extend the decorated class, implement an interface after
+ *   https://www.drupal.org/node/2708599.
  */
 class AdminThemeAdminContext extends AdminContext {
 
