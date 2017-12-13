@@ -56,7 +56,15 @@ class AdminThemeAdminContext extends AdminContext {
    * {@inheritdoc}
    */
   public function isAdminRoute(Route $route = NULL) {
+    $excludePaths = (string) $this->configFactory->get('admin_theme.settings')->get('exclude_paths');
+    /** @var \Drupal\Core\Condition\ConditionInterface $excludeCondition */
+    $excludeCondition = $this->conditionManager->createInstance('request_path', ['pages' => $excludePaths]);
+    if ($this->conditionManager->execute($excludeCondition)) {
+      return FALSE;
+    }
+
     $paths = $this->configFactory->get('admin_theme.settings')->get('paths');
+    /** @var \Drupal\Core\Condition\ConditionInterface $condition */
     $condition = $this->conditionManager->createInstance('request_path', ['pages' => $paths]);
     if ($this->conditionManager->execute($condition)) {
       return TRUE;
