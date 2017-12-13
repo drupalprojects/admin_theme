@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Admin Theme Hook Implementations.
+ */
+
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 

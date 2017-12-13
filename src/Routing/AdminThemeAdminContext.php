@@ -42,7 +42,7 @@ class AdminThemeAdminContext extends AdminContext {
    * @param \Drupal\Core\Routing\AdminContext $subject
    *   The decorated admin context service.
    * @param \Drupal\Core\Executable\ExecutableManagerInterface $condition_manager
-   *   The condition manager
+   *   The condition manager.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
    */
